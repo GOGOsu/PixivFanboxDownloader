@@ -21,6 +21,7 @@ yarn.lock
 
 # build file
 *.zip
+*.xpi
 
 _metadata
 

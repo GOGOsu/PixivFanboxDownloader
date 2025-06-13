@@ -8,6 +8,8 @@ import {
   TagPostList,
 } from './CrawlResult.d'
 
+import { originFetch } from './utils/OriginFetch'
+
 class API {
   // 组装 url 的查询参数。当该参数有值时，将其添加到 url 里
   static assembleURL(
@@ -25,23 +27,24 @@ class API {
   // 发送 get 请求，返回 json 数据，抛出异常
   static request<T>(url: string): Promise<T> {
     return new Promise((resolve, reject) => {
-      fetch(url, {
+      originFetch(url, {
         method: 'get',
         credentials: 'include',
       })
         .then((response) => {
           if (response.ok) {
-            return response.json()
+            return JSON.parse(response.body) as T
           } else {
             // 第一种异常，请求成功但状态不对
             reject({
               status: response.status,
-              statusText: response.statusText,
+              statusText: response.status.toString(),
             })
           }
         })
         .then((data) => {
-          resolve(data)
+          if (data != undefined) resolve(data)
+          else reject({ status: -114514, statusText: 'error' })
         })
         .catch((error) => {
           // 第二种异常，请求失败

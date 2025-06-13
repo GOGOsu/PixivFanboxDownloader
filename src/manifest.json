@@ -1,7 +1,8 @@
 {
-  "name": "Pixiv Fanbox Downloader",
-  "version": "4.5.0",
-  "manifest_version": 3,
+  "$schema": "https://json.schemastore.org/chrome-manifest.json",
+  "name": "Pixiv Fanbox Downloader for Firefox",
+  "version": "4.5.0.1",
+  "manifest_version": 2,
   "description": "Pixiv Fanbox 批量下载器。Pixiv Fanbox batch downloader.",
   "icons": {
     "16": "icon/logo16.png",
@@ -9,7 +10,7 @@
     "48": "icon/logo48.png",
     "128": "icon/logo128.png"
   },
-  "action": {
+  "browser_action": {
     "default_icon": {
       "16": "icon/logo16.png",
       "32": "icon/logo32.png",
@@ -27,24 +28,24 @@
     }
   ],
   "background": {
-    "service_worker": "js/background.js"
+    "scripts": ["js/background.js"],
+    "persistent": true
   },
   "permissions": [
     "downloads",
-    "storage"
-  ],
-  "host_permissions": [
+    "storage",
     "*://*.fanbox.cc/*"
   ],
   "web_accessible_resources": [
-    {
-      "resources": [
-        "lib/listen_history_change.js",
-        "icon/logo128.png"
-      ],
-      "matches": ["*://*.fanbox.cc/*"]
-    }
+    "lib/listen_history_change.js",
+    "icon/logo128.png"
   ],
-  "incognito": "split",
-  "homepage_url": "https://github.com/xuejianxianzun/PixivFanboxDownloader"
+  "incognito": "spanning",
+  "homepage_url": "https://github.com/GOGOsu/PixivFanboxDownloader",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "fanbox@mmmm.mn",
+      "strict_min_version": "100.0"
+    }
+  }
 }

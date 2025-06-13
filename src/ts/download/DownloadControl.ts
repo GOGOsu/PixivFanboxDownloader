@@ -413,6 +413,11 @@ class DownloadControl {
     }
   }
 
+  private stringToBase64DataUri(str: string, mime = 'text/plain'): string {
+    const base64 = btoa(str)
+    return `data:${mime};base64,${base64}`
+  }
+
   // 查找需要进行下载的作品，建立下载
   // 可选第二个参数：使用缩略图 url 而不是原图 url 进行下载
   private createDownload(progressBarIndex: number, useThumb: boolean = false) {
@@ -426,11 +431,9 @@ class DownloadControl {
       // 对于文本数据，此时创建其 URL
       if ((result as any).text && (result as any).text.length > 0) {
         const text = (result as any).text.join('\r\n')
-        const blob = new Blob([text], {
-          type: 'text/plain',
-        })
-        result.url = URL.createObjectURL(blob)
-        result.size = blob.size
+
+        result.url = this.stringToBase64DataUri(text)
+        result.size = null
       }
 
       // 对于需要使用缩略图来重试下载的情况，如果没有缩略图，则跳过下载此文件

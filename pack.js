@@ -35,7 +35,7 @@ async function copys() {
 
 // 打包 dist 目录
 function pack() {
-  const zipName = path.resolve(__dirname, packName + '.zip')
+  const zipName = path.resolve(__dirname, packName + '.xpi')
   const output = fs.createWriteStream(zipName)
 
   const archive = archiver('zip', {
@@ -54,7 +54,7 @@ function pack() {
   archive.pipe(output)
 
   // 添加文件夹
-  archive.directory('dist', packName)
+  archive.directory('dist', "")
 
   archive.finalize()
 }
