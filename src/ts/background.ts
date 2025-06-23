@@ -45,6 +45,7 @@ browser.runtime.onMessage.addListener(async function (
     }
 
     const tabId = sender.tab!.id!
+    const cookieStoreId = sender?.tab?.cookieStoreId
     // 如果开始了新一批的下载，重设批次编号，清空下载索引
     if (batchNo[tabId] !== msg.taskBatch) {
       batchNo[tabId] = msg.taskBatch
@@ -62,6 +63,7 @@ browser.runtime.onMessage.addListener(async function (
         filename: msg.fileName,
         conflictAction: 'uniquify',
         saveAs: false,
+        cookieStoreId: cookieStoreId,
       })
       .then((id) => {
         // id 是 Chrome 新建立的下载任务的 id
